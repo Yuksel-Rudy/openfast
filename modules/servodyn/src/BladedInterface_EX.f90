@@ -271,15 +271,15 @@ contains
    subroutine InitStCCtrl()
       integer(IntKi)    :: I,J   ! Generic counters
 
-      ! Error check the Cable Ctrl
+      ! Error check the StC Ctrl
       if (.not. allocated(StC_CtrlChanInitInfo%Requestor)) then
          ErrStat2=ErrID_Fatal
-         ErrMsg2='StC control string array indicating which module requested cable controls is missing (StC_CtrlChanInitInfo%Requestor)'
+         ErrMsg2='StC control string array indicating which module requested StC controls is missing (StC_CtrlChanInitInfo%Requestor)'
          if (Failed())  return
       endif
       if (size(StC_CtrlChanInitInfo%Requestor) /= p%NumStC_Control) then
          ErrStat2=ErrID_Fatal
-         ErrMsg2='Size of StC control string array (StC_CtrlChanInitInfo%Requestor) does not match the number of requested cable control channels.'
+         ErrMsg2='Size of StC control string array (StC_CtrlChanInitInfo%Requestor) does not match the number of requested StC control channels.'
          if (Failed())  return
       endif
       if (  (size(StC_CtrlChanInitInfo%InitMeasDisp,2) /= p%NumStC_Control) .or. &
@@ -289,12 +289,12 @@ contains
             (size(StC_CtrlChanInitInfo%InitBrake   ,2) /= p%NumStC_Control) .or. &
             (size(StC_CtrlChanInitInfo%InitForce   ,2) /= p%NumStC_Control) ) then
          ErrStat2=ErrID_Fatal
-         ErrMsg2='Size of StC control initialization arrays  (StC_CtrlChanInitInfo%Init*) do not match the number of requested cable control channels.  Programming error somewhere.'
+         ErrMsg2='Size of StC control initialization arrays  (StC_CtrlChanInitInfo%Init*) do not match the number of requested StC control channels.  Programming error somewhere.'
          if (Failed())  return
       endif
       if ( p%NumStC_Control*StCCtrl_ChanPerSet > StCCtrl_MaxChan ) then
          ErrStat2=ErrID_Fatal
-         ErrMsg2='Maximum number of cable control channels exceeded:  requested '//trim(Num2LStr(p%NumStC_Control))// &
+         ErrMsg2='Maximum number of StC control channels exceeded:  requested '//trim(Num2LStr(p%NumStC_Control))// &
                   ' channel sets ('//trim(Num2LStr(p%NumStC_Control*StCCtrl_ChanPerSet))//' individual channels),'// &
                   ' but only '//trim(Num2LStr(StCCtrl_MaxChan))//' individual channels are available'
          call WrSCr('StC channels requested: ')
