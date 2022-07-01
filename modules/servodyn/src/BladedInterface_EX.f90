@@ -133,7 +133,7 @@ SUBROUTINE EXavrSWAP_Init( InitInp, u, p, y, dll_data, StC_CtrlChanInitInfo, UnS
         if (Failed())  return
    endif
 
-      ! Initialize cable controls (2801:3000)
+      ! Initialize StC controls (2801:3000)
    if (p%NumStC_Control > 0) then
       call InitStCCtrl()
         if (Failed())  return
