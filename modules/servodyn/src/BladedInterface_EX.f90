@@ -484,7 +484,7 @@ CONTAINS
       if (size(dll_data%avrswap) < (LidarMsr_StartIdx + LidarMsr_MaxChan - 1) ) return
    end subroutine SetEXavrSWAP_LidarSensors
 
-   !> Set the Lidar related sensor inputs
+   !> Set the StC related sensor inputs
    !!    avrSWAP(2801:3000)
    subroutine SetEXavrStC_Sensors()
          ! in case something got set wrong, don't try to write beyond array
@@ -568,7 +568,7 @@ CONTAINS
 
 
    !> Controller signals to substructure controls (actuators in substructure)
-   !!    avrSWAP(3001:3200)
+   !!    avrSWAP(2801:3000)
    subroutine Retrieve_EXavrSWAP_StControls ()
       ! in case something got set wrong, don't try to read beyond array
       if (size(dll_data%avrswap) < (StCCtrl_StartIdx + StCCtrl_MaxChan - 1) ) return
@@ -588,10 +588,10 @@ CONTAINS
 
 
    !> Controller signals to active aero elements (aero actuators in blades)
-   !!    avrSWAP(3201:3500)
+   !!    avrSWAP(3001:3300)
    subroutine Retrieve_EXavrSWAP_AeroControls ()
       ! in case something got set wrong, don't try to read beyond array
-      if (size(dll_data%avrswap) < 3500 ) return
+      if (size(dll_data%avrswap) < 3300 ) return
    end subroutine Retrieve_EXavrSWAP_AeroControls
 
 
