@@ -133,7 +133,7 @@ SUBROUTINE EXavrSWAP_Init( InitInp, u, p, y, dll_data, StC_CtrlChanInitInfo, UnS
         if (Failed())  return
    endif
 
-      ! Initialize cable controls (2801:3000)
+      ! Initialize StC controls (2801:3000)
    if (p%NumStC_Control > 0) then
       call InitStCCtrl()
         if (Failed())  return
@@ -271,15 +271,15 @@ contains
    subroutine InitStCCtrl()
       integer(IntKi)    :: I,J   ! Generic counters
 
-      ! Error check the Cable Ctrl
+      ! Error check the StC Ctrl
       if (.not. allocated(StC_CtrlChanInitInfo%Requestor)) then
          ErrStat2=ErrID_Fatal
-         ErrMsg2='StC control string array indicating which module requested cable controls is missing (StC_CtrlChanInitInfo%Requestor)'
+         ErrMsg2='StC control string array indicating which module requested StC controls is missing (StC_CtrlChanInitInfo%Requestor)'
          if (Failed())  return
       endif
       if (size(StC_CtrlChanInitInfo%Requestor) /= p%NumStC_Control) then
          ErrStat2=ErrID_Fatal
-         ErrMsg2='Size of StC control string array (StC_CtrlChanInitInfo%Requestor) does not match the number of requested cable control channels.'
+         ErrMsg2='Size of StC control string array (StC_CtrlChanInitInfo%Requestor) does not match the number of requested StC control channels.'  
          if (Failed())  return
       endif
       if (  (size(StC_CtrlChanInitInfo%InitMeasDisp,2) /= p%NumStC_Control) .or. &
@@ -289,12 +289,12 @@ contains
             (size(StC_CtrlChanInitInfo%InitBrake   ,2) /= p%NumStC_Control) .or. &
             (size(StC_CtrlChanInitInfo%InitForce   ,2) /= p%NumStC_Control) ) then
          ErrStat2=ErrID_Fatal
-         ErrMsg2='Size of StC control initialization arrays  (StC_CtrlChanInitInfo%Init*) do not match the number of requested cable control channels.  Programming error somewhere.'
+         ErrMsg2='Size of StC control initialization arrays  (StC_CtrlChanInitInfo%Init*) do not match the number of requested StC control channels.  Programming error somewhere.'
          if (Failed())  return
       endif
       if ( p%NumStC_Control*StCCtrl_ChanPerSet > StCCtrl_MaxChan ) then
          ErrStat2=ErrID_Fatal
-         ErrMsg2='Maximum number of cable control channels exceeded:  requested '//trim(Num2LStr(p%NumStC_Control))// &
+         ErrMsg2='Maximum number of StC control channels exceeded:  requested '//trim(Num2LStr(p%NumStC_Control))// &
                   ' channel sets ('//trim(Num2LStr(p%NumStC_Control*StCCtrl_ChanPerSet))//' individual channels),'// &
                   ' but only '//trim(Num2LStr(StCCtrl_MaxChan))//' individual channels are available'
          call WrSCr('StC channels requested: ')
@@ -505,7 +505,7 @@ CONTAINS
             dll_data%avrswap(J+ 7:J+ 9) = dll_data%PrevStCCmdStiff(1:3,I)  ! StC initial stiffness -- StC_Stiff_X, StC_Stiff_Y, StC_Stiff_Z (N/m)
             dll_data%avrswap(J+10:J+12) = dll_data%PrevStCCmdDamp( 1:3,I)  ! StC initial damping   -- StC_Damp_X,  StC_Damp_Y,  StC_Damp_Z  (N/(m/s))
             dll_data%avrswap(J+13:J+15) = dll_data%PrevStCCmdBrake(1:3,I)  ! StC initial brake     -- StC_Brake_X, StC_Brake_Y, StC_Brake_Z (N)
-            dll_data%avrswap(J+16:J+18) = dll_data%PrevStCCmdForce(1:3,I)  ! StC initial brake     -- StC_Force_X, StC_Force_Y, StC_Force_Z (N)
+            dll_data%avrswap(J+16:J+18) = dll_data%PrevStCCmdForce(1:3,I)  ! StC initial force     -- StC_Force_X, StC_Force_Y, StC_Force_Z (N)
          enddo
       endif
    end subroutine SetEXavrStC_Sensors
